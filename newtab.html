@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>New Tab</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+    .primary {
+      text-align: center;
+    }
+    .primary .time {
+      font-size: 5rem;
+      font-weight: 300;
+      font-variant-numeric: tabular-nums;
+    }
+    .primary .time .period {
+      font-size: 1.5rem;
+      opacity: 0.5;
+      margin-left: 0.5rem;
+    }
+    .secondary {
+      display: flex;
+      gap: 4rem;
+    }
+    .secondary .clock {
+      text-align: center;
+    }
+    .secondary .time {
+      font-size: 1.5rem;
+      font-weight: 300;
+      font-variant-numeric: tabular-nums;
+      opacity: 0.7;
+    }
+    .secondary .time .period {
+      font-size: 0.875rem;
+      opacity: 0.6;
+      margin-left: 0.25rem;
+    }
+    .secondary .label {
+      font-size: 0.75rem;
+      opacity: 0.5;
+      margin-top: 0.25rem;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="primary">
+      <div class="time" id="primary-time"></div>
+    </div>
+    <div class="secondary" id="secondary-clocks"></div>
+  </div>
+  <script src="clock.js"></script>
+</body>
+</html>
