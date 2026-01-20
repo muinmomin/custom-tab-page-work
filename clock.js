@@ -66,7 +66,12 @@ function updateClocks() {
   const secondaryZones = timezones.filter(z => z.tz !== (matchingZone?.tz || ''));
 
   // Only rebuild DOM if needed
-  if (secondaryContainer.children.length !== secondaryZones.length) {
+  const currentZoneIds = Array.from(secondaryContainer.children).map(el => el.querySelector('.time')?.id?.replace('-time', ''));
+  const newZoneIds = secondaryZones.map(z => z.id);
+  const zonesChanged = currentZoneIds.length !== newZoneIds.length ||
+    !newZoneIds.every((id, i) => id === currentZoneIds[i]);
+
+  if (zonesChanged) {
     secondaryContainer.innerHTML = '';
     for (const zone of secondaryZones) {
       const clock = document.createElement('div');
@@ -81,10 +86,17 @@ function updateClocks() {
 
   // Update secondary times
   for (const zone of secondaryZones) {
-    document.getElementById(`${zone.id}-time`).innerHTML = formatTime(now, zone.tz);
-    document.getElementById(`${zone.id}-label`).textContent = getLabel(zone, now);
+    const timeEl = document.getElementById(`${zone.id}-time`);
+    const labelEl = document.getElementById(`${zone.id}-label`);
+    if (timeEl) timeEl.innerHTML = formatTime(now, zone.tz);
+    if (labelEl) labelEl.textContent = getLabel(zone, now);
   }
 }
 
 updateClocks();
-setInterval(updateClocks, 1000);
+// Sync to the next second boundary, then update every second
+const msUntilNextSecond = 1000 - (Date.now() % 1000);
+setTimeout(() => {
+  updateClocks();
+  setInterval(updateClocks, 1000);
+}, msUntilNextSecond);
